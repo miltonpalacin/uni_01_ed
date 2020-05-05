@@ -56,6 +56,7 @@ public:
             T data = (*pL).data;
             pnodever pver = pL;
             pL = (*pL).next;
+            sz--;
             delete (pver);
             return data;
         }
@@ -97,7 +98,7 @@ public:
                         (*pver_tmp).next = (*pver).next;
 
                     delete (pver);
-                    sz++;
+                    sz--;
                     return true;
                 }
                 pver_tmp = pver;

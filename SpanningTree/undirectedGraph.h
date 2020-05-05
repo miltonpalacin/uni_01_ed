@@ -282,18 +282,19 @@ public:
         pureTree<T> tree;
         if (pgraph)
         {
-            pvertex pver = searchVertex(data);
+            pvertex pver = searchVertex(data), pver_tmp;
             vertexList<T> vertexs;
             vertexList<T> vertexQueue;
             vertexs.addVertex((*pver).sourceData);
+            vertexQueue.addVertex((*pver).sourceData);
 
-            while (/* condition */)
+            while (!vertexQueue.isEmpy())
             {
-                /* code */
+                T ver = vertexQueue.getFist();
+                pver_tmp = searchVertex(ver);
+                spanningTreeBfs(ver, (*pver_tmp).adjacent, &vertexs, &vertexQueue, &tree);
             }
-            
 
-            spanningTreeBfs((*pver).sourceData, (*pver).adjacent, &vertexs, &tree);
             if (sizeGraph == vertexs.size())
                 return tree;
             else
@@ -303,26 +304,18 @@ public:
     }
 
     /* Método reursivo para la generación del arbol con DFS*/
-    void spanningTreeBfs(T ver, pedge pedg, vertexList<T> *vertexs, pureTree<T> *tree)
+    void spanningTreeBfs(T ver, pedge pedg, vertexList<T> *vertexs, vertexList<T> *vertexQueue, pureTree<T> *tree)
     {
         if (pedg)
         {
-
-            pvertex pver_tmp = searchVertex((*pedg).targetData);
-            cout << ver << "," << (*pedg).targetData << endl;
-            if (!(*vertexs).isVertex((*pver_tmp).sourceData))
+            if (!(*vertexs).isVertex((*pedg).targetData))
             {
-                /*Agregamos una nueva rama con una nueva hoja al arbol*/
-                (*tree).addBrach(ver, (*pver_tmp).sourceData);
-                (*vertexs).addVertex((*pver_tmp).sourceData);
+                (*tree).addBrach(ver, (*pedg).targetData);
+                (*vertexs).addVertex((*pedg).targetData);
+                (*vertexQueue).addVertex((*pedg).targetData);
             }
-            spanningTreeBfs(ver, (*pedg).nextEdge, vertexs, tree);
-            cout << "CORRRRRRRRRRREEEEE" << endl;
-            //spanningTreeBfs((*pver_tmp).sourceData, (*pver_tmp).adjacent, vertexs, tree);
-            //cout << "CxXXXXXXXXXXXXXXXXXXXXXX" << endl;
+            spanningTreeBfs(ver, (*pedg).nextEdge, vertexs, vertexQueue, tree);
         }
-        else
-            cout << "NULLLLLLLLLLLLLLLLLLL" << endl;
     }
 
     /****************************************************************************/
