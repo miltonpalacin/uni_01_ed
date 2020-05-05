@@ -77,6 +77,7 @@ public:
         pvertex pver_new = new vertex<T>;
         (*pver_new).sourceData = data;
         (*pver_new).adjacent = NULL;
+        (*pver_new).nextVertex = NULL;
         sizeGraph++;
         if (!pgraph)
             pgraph = pver_new;
@@ -85,7 +86,6 @@ public:
             pvertex ptmp = pgraph;
             while ((*ptmp).nextVertex) // Esto es una validación simplificada
                 ptmp = (*ptmp).nextVertex;
-
             (*ptmp).nextVertex = pver_new;
         }
     }
@@ -179,6 +179,7 @@ public:
         {
             pvertex pver = pgraph;
             pedge pedg = NULL;
+            cout << "===========================================" << endl;
             while (pver)
             {
                 cout << "[" << (*pver).sourceData << "]"
@@ -192,6 +193,7 @@ public:
                 cout << endl;
                 pver = (*pver).nextVertex;
             }
+            cout << "===========================================" << endl;
         }
     }
 
@@ -211,13 +213,9 @@ public:
             vertexList<T> vertexs;
             vertexs.addVertex((*pver).sourceData);
             isConnected(pver, &vertexs);
+            cout << "Vertices de grafo inmediato:" << endl;
             vertexs.print();
-            cout << vertexs.getFist() << endl;
-            cout << vertexs.getFist() << endl;
-            cout << vertexs.getFist() << endl;
-            cout << vertexs.getFist() << endl;
-            cout << vertexs.getFist() << endl;
-            vertexs.print();
+            return sizeGraph == vertexs.size();
         }
         return false;
     }

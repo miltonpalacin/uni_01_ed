@@ -18,6 +18,7 @@ public:
 
 private:
     pnodever pL;
+    int sz = 0;
 
 public:
     vertexList()
@@ -33,7 +34,7 @@ public:
             pnodever pver = new nodever<T>;
             (*pver).data = data;
             (*pver).next = NULL;
-
+            sz++;
             if (pL)
             {
                 pnodever paux = pL;
@@ -91,7 +92,7 @@ public:
                         (*pver_tmp).next = (*pver).next;
 
                     delete (pver);
-
+                    sz++;
                     return true;
                 }
                 pver_tmp = pver;
@@ -113,6 +114,7 @@ public:
                 delete (pver);
             } while (pL);
         }
+        sz = 0;
     }
 
     void print()
@@ -128,6 +130,11 @@ public:
 
             cout << "FIN" << endl;
         }
+    }
+
+    int size()
+    {
+        return sz;
     }
 
     ~vertexList()

@@ -35,13 +35,14 @@ public:
             pedgeedg pedg = new nodeedg<T>;
             (*pedg).sourceData = sourceData;
             (*pedg).targetData = targetData;
+            (*pedg).next = NULL;
             sz++;
             if (pL)
             {
                 pedgeedg paux = pL;
                 while ((*paux).next)
                     paux = (*paux).next;
-                (*paux).next = pver;
+                (*paux).next = pedg;
             }
             else
                 pL = pedg;
