@@ -3,11 +3,11 @@
 using namespace std;
 
 template <class T>
-struct edge
+struct nodeedg
 {
     T sourceData;
     T targetData;
-    edge *next;
+    nodeedg *next;
 };
 
 template <class T>
@@ -15,10 +15,11 @@ class edgeList
 {
 
 public:
-    typedef edge<T> *pedge;
+    typedef nodeedg<T> *pedgeedg;
 
 private:
-    pedge pL;
+    pedgeedg pL;
+    int sz = 0;
 
 public:
     edgeList()
@@ -29,71 +30,102 @@ public:
     /*LIFO*/
     void addEdge(T sourceData, T targetData)
     {
-        pedge pedg = new pedge<T>;
-        (*pedg).sourceData = sourceData;
-        (*pedg).targetData = targetData;
-        (*pedg).next = pL;
-        pL = pedg;
+        if (!isEdge(sourceData, targetData))
+        {
+            pedgeedg pedg = new nodeedg<T>;
+            (*pedg).sourceData = sourceData;
+            (*pedg).targetData = targetData;
+            sz++;
+            if (pL)
+            {
+                pedgeedg paux = pL;
+                while ((*paux).next)
+                    paux = (*paux).next;
+                (*paux).next = pver;
+            }
+            else
+                pL = pedg;
+        }
     }
 
     bool isEdge(T sourceData, T targetData)
     {
         if (pL)
         {
-            pvertex pver = pL;
+            pedgeedg pedg = pL;
             do
             {
-                if (((*p).dato == dato && (*p).dato_extra == dato_extra) || ((*p).dato == dato_extra && (*p).dato_extra == dato))
-                if ((*pver).data == data)
+                if (((*pedg).sourceData == sourceData && (*pedg).targetData == targetData) || ((*pedg).sourceData == targetData && (*pedg).targetData == sourceData))
                     return true;
-                pver = pver->sig;
-            } while (pver);
+                pedg = (*pedg).next;
+            } while (pedg);
         }
         return false;
     }
 
-    bool existeCamino(char dato, char dato_extra)
+    bool remove(T sourceData, T targetData)
     {
         if (pL)
         {
-            pcamino p = pL;
+            pedgeedg pedg = pL, pedg_tmp;
             do
             {
-                if (((*p).dato == dato && (*p).dato_extra == dato_extra) || ((*p).dato == dato_extra && (*p).dato_extra == dato))
+                if (((*pedg).sourceData == sourceData && (*pedg).targetData == targetData) || ((*pedg).sourceData == targetData && (*pedg).targetData == sourceData))
+                {
+                    if (pedg == pL)
+                        pL = (*pL).next;
+                    else
+                        (*pedg_tmp).next = (*pedg).next;
+
+                    delete (pedg);
+                    sz--;
                     return true;
-                p = p->sig;
-            } while (p != NULL);
+                }
+                pedg_tmp = pedg;
+                pedg = (*pedg).next;
+            } while (pedg);
         }
         return false;
     }
 
-    void retrocederTodo()
-    {
-        pcamino p = pL;
-        pL = NULL;
-        if (p != NULL)
-        {
-            pL = p->sig;
-            delete p;
-            p = pL;
-        }
-    }
-    void imprimir()
+    void clear()
     {
         if (pL)
         {
-            pcamino p = pL;
+            pedgeedg pedg = NULL;
             do
             {
-                cout << (*p).dato << "->";
-                p = p->sig;
-            } while (p != NULL);
+                pedg = pL;
+                pL = (*pL).next;
+                delete (pedg);
+            } while (pL);
+        }
+        sz = 0;
+    }
+
+    void print()
+    {
+        if (pL)
+        {
+            pedgeedg pedg = pL;
+            do
+            {
+                cout << "{" << (*pedg).sourceData << "," << (*pedg).targetData << "}"
+                     << "->";
+                pedg = (*pedg).next;
+            } while (pedg);
 
             cout << "FIN" << endl;
         }
     }
-    ~camino()
+
+    int size()
     {
-        retrocederTodo();
+        return sz;
+    }
+
+    ~edgeList()
+    {
+        clear();
     }
 };

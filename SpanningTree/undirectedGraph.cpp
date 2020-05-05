@@ -3,8 +3,10 @@
 
 using namespace std;
 
+
 int main(void)
 {
+
     UndirectedGraph<char> G;
 
     G.addVertex('A');
@@ -22,8 +24,12 @@ int main(void)
     G.addEdge('D', 'C');
     G.addEdge('C', 'C');
     G.addEdge('C', 'C');
+    G.addEdge('B', 'E');
 
     G.print();
 
+    G.isConnected();
+
+    cout << "FIN DE PRUEBA" << endl;
     return 0;
 }

@@ -1,4 +1,6 @@
 #include <iostream>
+#include "vertexList.h"
+#include "edgeList.h"
 
 using namespace std;
 
@@ -34,6 +36,7 @@ public:
 
 private:
     pvertex pgraph;
+    int sizeGraph = 0;
     // bool recorreCamino(pvertice, pvertice, camino *, camino *);
     // bool isEdgeIn(pvertex sourceVertex, T targetEdge)
     // {
@@ -74,6 +77,7 @@ public:
         pvertex pver_new = new vertex<T>;
         (*pver_new).sourceData = data;
         (*pver_new).adjacent = NULL;
+        sizeGraph++;
         if (!pgraph)
             pgraph = pver_new;
         else
@@ -201,7 +205,40 @@ public:
     /* Utilizamo búsqueda en profundidad (DFG)*/
     bool isConnected()
     {
-        return true;
+        if (pgraph)
+        {
+            pvertex pver = pgraph;
+            vertexList<T> vertexs;
+            vertexs.addVertex((*pver).sourceData);
+            isConnected(pver, &vertexs);
+            vertexs.print();
+            cout << vertexs.getFist() << endl;
+            cout << vertexs.getFist() << endl;
+            cout << vertexs.getFist() << endl;
+            cout << vertexs.getFist() << endl;
+            cout << vertexs.getFist() << endl;
+            vertexs.print();
+        }
+        return false;
+    }
+
+    void isConnected(pvertex pver, vertexList<T> *vertexs)
+    {
+        if (pver)
+        {
+            pedge pedg = (*pver).adjacent;
+            pvertex pver_tmp = NULL;
+            while (pedg)
+            {
+                pver_tmp = searchVertex((*pedg).targetData);
+                if (!(*vertexs).isVertex((*pver_tmp).sourceData))
+                {
+                    (*vertexs).addVertex((*pver_tmp).sourceData);
+                    isConnected(pver_tmp, vertexs);
+                }
+                pedg = (*pedg).nextEdge;
+            }
+        }
     }
 
     /****************************************************************************/
@@ -231,28 +268,7 @@ public:
                 delete pver_tmp;
             }
             pgraph = NULL;
+            sizeGraph = 0;
         }
     }
 };
-
-// int main()
-// {
-//     grafo g;
-//     g.insertarVertice('A');
-//     g.insertarVertice('B');
-//     g.insertarVertice('C');
-//     g.insertarVertice('D');
-//     g.insertarVertice('E');
-//     g.insertarArista('A', 'C');
-//     g.insertarArista('C', 'A');
-//     g.insertarArista('A', 'D');
-//     g.insertarArista('B', 'C');
-//     //g.insertarArista('E', 'A');
-//     g.insertarArista('E', 'B');
-//     //g.insertarArista('E', 'D');
-
-//     g.imprimirGrafo();
-//     cout << "Buscar un camino" << endl;
-//     g.caminoDosPuntos('E', 'D');
-//     return 0;
-// }

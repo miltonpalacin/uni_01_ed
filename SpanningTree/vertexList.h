@@ -3,10 +3,10 @@
 using namespace std;
 
 template <class T>
-struct vertex
+struct nodever
 {
     T data;
-    vertex *next;
+    nodever *next;
 };
 
 template <class T>
@@ -14,10 +14,10 @@ class vertexList
 {
 
 public:
-    typedef vertex<T> *pvertex;
+    typedef nodever<T> *pnodever;
 
 private:
-    pvertex pL;
+    pnodever pL;
 
 public:
     vertexList()
@@ -25,25 +25,52 @@ public:
         pL = NULL;
     }
 
-    /*LIFO*/
+    /*FIFO*/
     void addVertex(T data)
     {
-        pvertex pver = new vertex<T>;
-        (*pver).data = data;
-        (*pver).next = pL;
-        pL = pver;
+        if (!isVertex(data))
+        {
+            pnodever pver = new nodever<T>;
+            (*pver).data = data;
+            (*pver).next = NULL;
+
+            if (pL)
+            {
+                pnodever paux = pL;
+                while ((*paux).next)
+                    paux = (*paux).next;
+
+                (*paux).next = pver;
+            }
+            else
+                pL = pver;
+        }
+    }
+
+    T getFist()
+    {
+
+        if (pL)
+        {
+            T data = (*pL).data;
+            pnodever pver = pL;
+            pL = (*pL).next;
+            delete (pver);
+            return data;
+        }
+        return T();
     }
 
     bool isVertex(T data)
     {
         if (pL)
         {
-            pvertex pver = pL;
+            pnodever pver = pL;
             do
             {
                 if ((*pver).data == data)
                     return true;
-                pver = pver->sig;
+                pver = (*pver).next;
             } while (pver);
         }
         return false;
@@ -53,7 +80,7 @@ public:
     {
         if (pL)
         {
-            pvertex pver = pL, pver_tmp;
+            pnodever pver = pL, pver_tmp;
             do
             {
                 if ((*pver).data == data)
@@ -68,7 +95,7 @@ public:
                     return true;
                 }
                 pver_tmp = pver;
-                pver = (*pver)sig;
+                pver = (*pver).next;
             } while (pver);
         }
         return false;
@@ -78,7 +105,7 @@ public:
     {
         if (pL)
         {
-            pvertex pver = NULL;
+            pnodever pver = NULL;
             do
             {
                 pver = pL;
@@ -92,7 +119,7 @@ public:
     {
         if (pL)
         {
-            pvertex pver = pL;
+            pnodever pver = pL;
             do
             {
                 cout << (*pver).data << "->";
