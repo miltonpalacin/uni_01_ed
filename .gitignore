@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+Notas.txt
+Notas_Exposicion.txt
+Notas_Auxiliares.txt
+Win/
+SpanningTree/test.cpp
+.vscode/
