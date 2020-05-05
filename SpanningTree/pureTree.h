@@ -126,9 +126,9 @@ public:
     void print()
     {
 
-        cout << "===========================================" << endl;
+        cout << "======================== ARBOL ========================" << endl;
         print("", ptree);
-        cout << "===========================================" << endl;
+        cout << "=======================================================" << endl;
     }
 
     void print(string prefix, pleaf plf)
@@ -148,27 +148,28 @@ public:
         }
     }
 
+    void remove(pleaf plf)
+    {
+        if (plf)
+        {
+            pbranch pbr = (*plf).adjacent, pbr_aux = NULL;
+            if (pbr)
+            {
+                while (pbr)
+                {
+                    pbr_aux = pbr;
+                    remove((*pbr).sonLeaf);
+                    pbr = (*pbr).nextBranch;
+                    delete pbr_aux;
+                }
+            }
+
+            delete (plf);
+        }
+    }
+
     ~pureTree()
     {
-        // if (ptree)
-        // {
-        //     pleaf plf = ptree, pver_tmp = NULL;
-        //     pbranch pbrc = NULL, pedg_tmp = NULL;
-        //     while (plf)
-        //     {
-        //         pbrc = (*plf).adjacent;
-        //         while (pbrc)
-        //         {
-        //             pedg_tmp = pbrc;
-        //             pbrc = (*pbrc).nextBranch;
-        //             delete pedg_tmp;
-        //         }
-        //         pver_tmp = plf;
-        //         plf = (*plf).sonLeaf;
-        //         delete pver_tmp;
-        //     }
-        //     ptree = NULL;
-        //     sizeTree = 0;
-        // }
+        remove(ptree);
     }
 };

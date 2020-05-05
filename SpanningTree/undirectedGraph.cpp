@@ -1,6 +1,6 @@
 #include <iostream>
 #include "undirectedGraph.h"
-#include "pureTree.h"
+//#include "pureTree.h"
 
 using namespace std;
 
@@ -25,9 +25,7 @@ int main(void)
         G.addVertex(13);
         G.addVertex(14);
 
-        G.addVertex(15);
-        G.addVertex(16);
-
+        G.addEdge(1, 1);
         G.addEdge(1, 2);
         G.addEdge(1, 3);
         G.addEdge(1, 7);
@@ -52,7 +50,9 @@ int main(void)
         G.addEdge(13, 14);
         G.addEdge(9, 14);
 
-        G.addEdge(15, 16);
+        // G.addVertex(15);
+        // G.addVertex(16);
+        // G.addEdge(15, 16);
 
         cout << "FIN DE PRUEBA" << endl;
 
@@ -61,38 +61,14 @@ int main(void)
         if (G.isConnected())
             cout << "El grafo SI es conexo!" << endl;
         else
-            cout << "El grado NO es conexo!" << endl;
+            cout << "El grafo NO es conexo!" << endl;
+
+        int ver = 1;
+        pureTree<int> tree = G.spanningTreeBfs(ver);
+        cout << "ARBOL DE RECUBRIMIENTO DESDE EL VÉRTICE [" << ver << "]" << endl;
+        tree.print();
 
         cout << "FIN DE PRUEBA" << endl;
-
-        // tree<string> tre;
-        // tre.addLeaf("Abuelo");
-        // tre.addLeaf("Tio01");
-        // tre.addLeaf("Tio02");
-        // tre.addLeaf("papa");
-        // tre.addLeaf("Tio03");
-        // tre.addLeaf("Tio04");
-        // tre.addBrach("A","B");
-        pureTree<string> tre;
-        // tre.addRoot("Abuelo");
-        tre.addBrach("Tatarabuelo","Abuelo");
-        tre.addBrach("Abuelo","Tio01");
-        tre.addBrach("Abuelo","Tio02");
-        tre.addBrach("Tio02","Primo01");
-        tre.addBrach("Abuelo","Tio03");
-        tre.addBrach("Abuelo","Papa");
-        tre.addBrach("Abuelo","Tio04");
-        tre.addBrach("Abuelo","Tio05");
-        tre.addBrach("Abuelo","Tio06");
-        tre.addBrach("Papa","Yo");
-        tre.addBrach("Yo","MiHija");
-        tre.addBrach("MiHija","SuHija");
-        tre.addBrach("Papa","Hermana");
-        // tre.addLeaf("papa");
-        // tre.addLeaf("Tio03");
-        // tre.addLeaf("Tio04");
-        // tre.addBrach("A", "B");
-        tre.print();
     }
     catch (exception e)
     {
@@ -138,3 +114,32 @@ int main(void)
 // G.addEdge('D', 'E');
 // G.addEdge('D', 'F');
 // G.addEdge('E', 'F');
+
+// tree<string> tre;
+// tre.addLeaf("Abuelo");
+// tre.addLeaf("Tio01");
+// tre.addLeaf("Tio02");
+// tre.addLeaf("papa");
+// tre.addLeaf("Tio03");
+// tre.addLeaf("Tio04");
+// tre.addBrach("A","B");
+// pureTree<string> tre;
+// // tre.addRoot("Abuelo");
+// tre.addBrach("Tatarabuelo","Abuelo");
+// tre.addBrach("Abuelo","Tio01");
+// tre.addBrach("Abuelo","Tio02");
+// tre.addBrach("Tio02","Primo01");
+// tre.addBrach("Abuelo","Tio03");
+// tre.addBrach("Abuelo","Papa");
+// tre.addBrach("Abuelo","Tio04");
+// tre.addBrach("Abuelo","Tio05");
+// tre.addBrach("Abuelo","Tio06");
+// tre.addBrach("Papa","Yo");
+// tre.addBrach("Yo","MiHija");
+// tre.addBrach("MiHija","SuHija");
+// tre.addBrach("Papa","Hermana");
+// tre.addLeaf("papa");
+// tre.addLeaf("Tio03");
+// tre.addLeaf("Tio04");
+// tre.addBrach("A", "B");
+// tre.print();

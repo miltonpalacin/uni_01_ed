@@ -1,6 +1,6 @@
 #include <iostream>
 #include "vertexList.h"
-#include "edgeList.h"
+#include "pureTree.h"
 
 using namespace std;
 
@@ -37,10 +37,6 @@ public:
 private:
     pvertex pgraph;
     int sizeGraph = 0;
-    // bool recorreCamino(pvertice, pvertice, camino *, camino *);
-    // bool isEdgeIn(pvertex sourceVertex, T targetEdge)
-    // {
-    // }
 
 public:
     /* Constructor*/
@@ -179,21 +175,21 @@ public:
         {
             pvertex pver = pgraph;
             pedge pedg = NULL;
-            cout << "===========================================" << endl;
+            cout << "====================== GRAFO ======================" << endl;
             while (pver)
             {
                 cout << "[" << (*pver).sourceData << "]"
-                     << "\t\t";
+                     << " \t\t -> { \t";
                 pedg = (*pver).adjacent;
                 while (pedg)
                 {
-                    cout << (*pedg).targetData << "\t";
+                    cout << (*pedg).targetData << " \t";
                     pedg = (*pedg).nextEdge;
                 }
-                cout << endl;
+                cout << " } " << endl;
                 pver = (*pver).nextVertex;
             }
-            cout << "===========================================" << endl;
+            cout << "=====================================================" << endl;
         }
     }
 
@@ -204,7 +200,7 @@ public:
     /****************************************************************************/
 
     /* Verificaremos si a partir de un vértice el grafo es conexo */
-    /* Utilizamo búsqueda en profundidad (DFG)*/
+    /* Utiliza búsqueda en profundidad */
     bool isConnected()
     {
         if (pgraph)
@@ -213,13 +209,14 @@ public:
             vertexList<T> vertexs;
             vertexs.addVertex((*pver).sourceData);
             isConnected(pver, &vertexs);
-            cout << "Vertices de grafo inmediato:" << endl;
-            vertexs.print();
+            // cout << "Vertices de grafo inmediato:" << endl;
+            // vertexs.print();
             return sizeGraph == vertexs.size();
         }
         return false;
     }
 
+    /* Método recursivo para la búsqueda en profundidad*/
     void isConnected(pvertex pver, vertexList<T> *vertexs)
     {
         if (pver)
@@ -237,6 +234,95 @@ public:
                 pedg = (*pedg).nextEdge;
             }
         }
+    }
+
+    /* Generar el arbol recubrimiento con DFS (Depth First Seach)*/
+    pureTree<T> spanningTreeDfs(T data)
+    {
+        pureTree<T> tree;
+        if (pgraph)
+        {
+            pvertex pver = searchVertex(data);
+            vertexList<T> vertexs;
+            vertexs.addVertex((*pver).sourceData);
+            spanningTreeDfs(pver, &vertexs, &tree);
+            if (sizeGraph == vertexs.size())
+                return tree;
+            else
+                cout << "El arbol NO es conexo, no se a cubierto todo los vértices!" << endl;
+        }
+        return tree;
+    }
+
+    /* Método reursivo para la generación del arbol con DFS*/
+    void spanningTreeDfs(pvertex pver, vertexList<T> *vertexs, pureTree<T> *tree)
+    {
+        if (pver)
+        {
+            pedge pedg = (*pver).adjacent;
+            pvertex pver_tmp = NULL;
+            while (pedg)
+            {
+                pver_tmp = searchVertex((*pedg).targetData);
+                if (!(*vertexs).isVertex((*pver_tmp).sourceData))
+                {
+                    /*Agregamos una nueva rama con una nueva hoja al arbol*/
+                    (*tree).addBrach((*pver).sourceData, (*pver_tmp).sourceData);
+                    (*vertexs).addVertex((*pver_tmp).sourceData);
+                    spanningTreeDfs(pver_tmp, vertexs, tree);
+                }
+                pedg = (*pedg).nextEdge;
+            }
+        }
+    }
+
+    /* Generar el arbol recubrimiento con DFS (Depth First Seach)*/
+    pureTree<T> spanningTreeBfs(T data)
+    {
+        pureTree<T> tree;
+        if (pgraph)
+        {
+            pvertex pver = searchVertex(data);
+            vertexList<T> vertexs;
+            vertexList<T> vertexQueue;
+            vertexs.addVertex((*pver).sourceData);
+
+            while (/* condition */)
+            {
+                /* code */
+            }
+            
+
+            spanningTreeBfs((*pver).sourceData, (*pver).adjacent, &vertexs, &tree);
+            if (sizeGraph == vertexs.size())
+                return tree;
+            else
+                cout << "El arbol NO es conexo, no se a cubierto todo los vértices!" << endl;
+        }
+        return tree;
+    }
+
+    /* Método reursivo para la generación del arbol con DFS*/
+    void spanningTreeBfs(T ver, pedge pedg, vertexList<T> *vertexs, pureTree<T> *tree)
+    {
+        if (pedg)
+        {
+
+            pvertex pver_tmp = searchVertex((*pedg).targetData);
+            cout << ver << "," << (*pedg).targetData << endl;
+            if (!(*vertexs).isVertex((*pver_tmp).sourceData))
+            {
+                /*Agregamos una nueva rama con una nueva hoja al arbol*/
+                (*tree).addBrach(ver, (*pver_tmp).sourceData);
+                (*vertexs).addVertex((*pver_tmp).sourceData);
+            }
+            spanningTreeBfs(ver, (*pedg).nextEdge, vertexs, tree);
+            cout << "CORRRRRRRRRRREEEEE" << endl;
+            //spanningTreeBfs((*pver_tmp).sourceData, (*pver_tmp).adjacent, vertexs, tree);
+            //cout << "CxXXXXXXXXXXXXXXXXXXXXXX" << endl;
+        }
+        else
+            cout << "NULLLLLLLLLLLLLLLLLLL" << endl;
     }
 
     /****************************************************************************/

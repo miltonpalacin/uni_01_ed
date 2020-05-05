@@ -62,6 +62,11 @@ public:
         return T();
     }
 
+    bool isEmpy()
+    {
+        return (!pL);
+    }
+
     bool isVertex(T data)
     {
         if (pL)
