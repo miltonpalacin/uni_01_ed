@@ -257,26 +257,24 @@ public:
     /* Método reursivo para la generación del arbol con DFS*/
     void spanningTreeDfs(pvertex pver, vertexList<T> *vertexs, pureTree<T> *tree)
     {
-        if (pver)
+
+        pedge pedg = (*pver).adjacent;
+        pvertex pver_tmp = NULL;
+        while (pedg)
         {
-            pedge pedg = (*pver).adjacent;
-            pvertex pver_tmp = NULL;
-            while (pedg)
+            pver_tmp = searchVertex((*pedg).targetData);
+            if (!(*vertexs).isVertex((*pver_tmp).sourceData))
             {
-                pver_tmp = searchVertex((*pedg).targetData);
-                if (!(*vertexs).isVertex((*pver_tmp).sourceData))
-                {
-                    /*Agregamos una nueva rama con una nueva hoja al arbol*/
-                    (*tree).addBrach((*pver).sourceData, (*pver_tmp).sourceData);
-                    (*vertexs).addVertex((*pver_tmp).sourceData);
-                    spanningTreeDfs(pver_tmp, vertexs, tree);
-                }
-                pedg = (*pedg).nextEdge;
+                /*Agregamos una nueva rama con una nueva hoja al arbol*/
+                (*tree).addBrach((*pver).sourceData, (*pver_tmp).sourceData);
+                (*vertexs).addVertex((*pver_tmp).sourceData);
+                spanningTreeDfs(pver_tmp, vertexs, tree);
             }
+            pedg = (*pedg).nextEdge;
         }
     }
 
-    /* Generar el arbol recubrimiento con DFS (Depth First Seach)*/
+    /* Generar el arbol recubrimiento con BFS (Breadth First Seach)*/
     pureTree<T> spanningTreeBfs(T data)
     {
         pureTree<T> tree;
