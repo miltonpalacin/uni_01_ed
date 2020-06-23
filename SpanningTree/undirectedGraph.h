@@ -249,7 +249,7 @@ public:
             if (sizeGraph == vertexs.size())
                 return tree;
             else
-                cout << "El arbol NO es conexo, no se a cubierto todo los vértices!" << endl;
+                cout << "El arbol NO es conexo, no se a cubierto todo los vertices!" << endl;
         }
         return tree;
     }
@@ -296,7 +296,7 @@ public:
             if (sizeGraph == vertexs.size())
                 return tree;
             else
-                cout << "El arbol NO es conexo, no se a cubierto todo los vértices!" << endl;
+                cout << "El arbol NO es conexo, no se a cubierto todo los vertices!" << endl;
         }
         return tree;
     }

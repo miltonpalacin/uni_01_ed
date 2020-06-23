@@ -50,9 +50,9 @@ int main(void)
         G.addEdge(13, 14);
         G.addEdge(9, 14);
 
-        G.addVertex(15);
-        G.addVertex(16);
-        G.addEdge(15, 16);
+        // G.addVertex(15);
+        // G.addVertex(16);
+        // G.addEdge(15, 16);
 
         cout << "FIN DE PRUEBA" << endl;
 
@@ -65,11 +65,11 @@ int main(void)
 
         int ver = 1;
         pureTree<int> tree1 = G.spanningTreeDfs(ver);
-        cout << "ARBOL DE RECUBRIMIENTO EN PROFUNDIDAD DESDE EL VÉRTICE [" << ver << "]" << endl;
+        cout << "ARBOL DE RECUBRIMIENTO EN PROFUNDIDAD DESDE EL VERTICE [" << ver << "]" << endl;
         tree1.print();
 
         pureTree<int> tree2 = G.spanningTreeBfs(ver);
-        cout << "ARBOL DE RECUBRIMIENTO EN AMPLITUD DESDE EL VÉRTICE [" << ver << "]" << endl;
+        cout << "ARBOL DE RECUBRIMIENTO EN AMPLITUD DESDE EL VERTICE [" << ver << "]" << endl;
         tree2.print();
 
         cout << "FIN DE PRUEBA" << endl;
